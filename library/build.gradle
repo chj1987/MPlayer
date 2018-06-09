@@ -1,21 +1,34 @@
 apply plugin: 'com.android.library'
-
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'android-apt'
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
     buildTypes {
-        release {
+        debug {
+            buildConfigField("boolean", "LOG_DEBUG", "true")
             minifyEnabled false
+            useProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            testProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguardTest-rules.pro'
+        }
+
+        release {
+            buildConfigField("boolean", "LOG_DEBUG", "false")
+            minifyEnabled false
+            useProguard true
+            //移除没用的资源文件
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -26,6 +39,23 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:27.+'
-    testCompile 'junit:junit:4.12'
+    compile rootProject.ext.dependencies.appcompatv7
+    compile rootProject.ext.dependencies.constraintLayout
+    compile rootProject.ext.dependencies.cardview
+    compile rootProject.ext.dependencies.design
+    compile rootProject.ext.dependencies.eventbus
+    compile rootProject.ext.dependencies.butterknife
+    apt rootProject.ext.dependencies.butterknifeCompiler
+    compile rootProject.ext.dependencies.rxjava2
+    compile rootProject.ext.dependencies.retrofit2
+    compile rootProject.ext.dependencies.rxandroid
+    compile rootProject.ext.dependencies.retrofit2ConverterGson
+    compile rootProject.ext.dependencies.retrofit2AdapterRxjava2
+    compile rootProject.ext.dependencies.okhttp3
+    compile rootProject.ext.dependencies.glide
+    compile rootProject.ext.dependencies.bottomNavigationBar
+    compile rootProject.ext.dependencies.logger
+    compile rootProject.ext.dependencies.lottie
+    compile rootProject.ext.dependencies.circleimageview
+    testCompile rootProject.ext.dependencies.junit
 }
