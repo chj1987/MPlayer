@@ -57,5 +57,7 @@ dependencies {
     compile rootProject.ext.dependencies.logger
     compile rootProject.ext.dependencies.lottie
     compile rootProject.ext.dependencies.circleimageview
+    compile rootProject.ext.dependencies.fragmentation
     testCompile rootProject.ext.dependencies.junit
+
 }
