@@ -1,6 +1,8 @@
 package com.liyong.library.base;
 
 import android.os.Bundle;
+import android.os.Looper;
+import android.os.MessageQueue;
 import android.support.annotation.Nullable;
 
 import com.liyong.library.mvp.BasePresenter;
@@ -34,7 +36,13 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
 
         mPresenter.onCreat();
 
-        mPresenter.loadData();
+        Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
+            @Override
+            public boolean queueIdle() {
+                mPresenter.loadData();
+                return false;
+            }
+        });
     }
 
     @Override
